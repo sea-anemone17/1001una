@@ -5,7 +5,7 @@ function getTagLabel(tagId) {
   return GRAMMAR_TAGS.find(tag => tag.id === tagId)?.label || tagId;
 }
 
-export function buildReviewRecommendations(userData) {
+export function buildReviewRecommendations(userData = {}) {
   const recommendations = [];
   const viewed = new Set((userData.progress?.viewedSentences || []).map(Number));
   const wrongTagCounts = {};
