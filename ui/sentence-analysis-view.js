@@ -64,6 +64,12 @@ export function renderSentenceAnalysisView(sentenceId) {
       <div class="badge-row">
         ${renderTagBadges(sentence.tagIds)}
       </div>
+      
+      <div class="button-row">
+        <button data-action="go-application" data-sentence-id="${sentence.id}">
+          적용 문제 풀기 →
+        </button>
+      </div>
     </section>
 
     <section class="card">
