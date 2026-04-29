@@ -2,10 +2,10 @@ import { GENERATED_SENTENCES } from "../data/generated/sentences.generated.js";
 import { GRAMMAR_TAGS } from "../data/grammar-tags.js";
 import { escapeHTML } from "../utils/sanitize.js";
 
-const APPLICATIONS_CHAPTER_01 = [];
+const APPLICATIONS = [];
 
 function getApplicationsBySentence(sentenceId) {
-  return APPLICATIONS_CHAPTER_01.filter(app => app.sentenceId === Number(sentenceId));
+  return APPLICATIONS.filter(app => app.sentenceId === Number(sentenceId));
 }
 
 function getSentence(sentenceId) {
@@ -37,10 +37,9 @@ export function renderApplicationView(sentenceId) {
         </button>
         <h2>적용 문제 준비 중</h2>
         <p class="sentence-text">${escapeHTML(sentence.text)}</p>
+        <p class="muted">${escapeHTML(sentence.translation || "")}</p>
         <p class="muted">
           아직 이 문장에는 적용 문제가 등록되지 않았습니다.
-        </p>
-        <p class="muted">
           현재는 문장 분석, 초벌 태그, 시험 포인트 확인을 먼저 사용할 수 있습니다.
         </p>
       </section>
@@ -51,7 +50,7 @@ export function renderApplicationView(sentenceId) {
     const tag = getTag(question.tagId);
 
     return `
-      <article class="card application-question" data-question-id="${question.id}">
+      <article class="card application-question" data-question-id="${escapeHTML(question.id)}">
         <div class="badge-row">
           <span class="badge">${escapeHTML(question.id)}</span>
           <span class="badge">${escapeHTML(tag?.label || question.tagId)}</span>
@@ -65,7 +64,7 @@ export function renderApplicationView(sentenceId) {
             <button
               class="choice-button secondary"
               data-action="check-application"
-              data-question-id="${question.id}"
+              data-question-id="${escapeHTML(question.id)}"
               data-choice-index="${index}"
             >
               ${index + 1}. ${escapeHTML(choice)}
@@ -73,7 +72,7 @@ export function renderApplicationView(sentenceId) {
           `).join("")}
         </div>
 
-        <div class="feedback-box" id="feedback-${question.id}"></div>
+        <div class="feedback-box" id="feedback-${escapeHTML(question.id)}"></div>
       </article>
     `;
   }).join("");
@@ -94,5 +93,5 @@ export function renderApplicationView(sentenceId) {
 }
 
 export function getApplicationById(questionId) {
-  return APPLICATIONS_CHAPTER_01.find(question => question.id === questionId) || null;
+  return APPLICATIONS.find(question => question.id === questionId) || null;
 }

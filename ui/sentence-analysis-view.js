@@ -1,6 +1,5 @@
 import { GENERATED_SENTENCES } from "../data/generated/sentences.generated.js";
 import { GENERATED_SENTENCE_TAGS } from "../data/generated/sentence-tags.generated.js";
-import { ANALYSES_CHAPTER_01 } from "../data/analyses/analysis-chapter-01.js";
 import { GRAMMAR_TAGS } from "../data/grammar-tags.js";
 import { escapeHTML } from "../utils/sanitize.js";
 
@@ -14,10 +13,6 @@ function getSentenceTagData(sentenceId) {
 
 function getTag(tagId) {
   return GRAMMAR_TAGS.find(tag => tag.id === tagId);
-}
-
-function getAnalysis(sentenceId) {
-  return ANALYSES_CHAPTER_01?.[Number(sentenceId)] || null;
 }
 
 function renderTagBadges(tagIds = [], emptyText = "없음") {
@@ -96,97 +91,23 @@ function renderSentenceTags(tagData) {
   `;
 }
 
-function renderBasicAnalysis(analysis) {
-  if (!analysis?.basic) {
-    return `
-      <section class="card">
-        <h3>기본 분석</h3>
-        <p class="muted">아직 이 문장의 기본 분석이 등록되지 않았습니다.</p>
-      </section>
-    `;
-  }
+function renderTranslationChunks(sentence) {
+  if (!sentence.translationChunks?.length) return "";
 
   return `
-    <section class="card">
-      <h3>기본 분석</h3>
-      <p>${escapeHTML(analysis.basic.summary || "")}</p>
-
-      ${
-        analysis.basic.keyPoints?.length
-          ? `
-            <h4>핵심 포인트</h4>
-            <ul>
-              ${analysis.basic.keyPoints.map(point => `<li>${escapeHTML(point)}</li>`).join("")}
-            </ul>
-          `
-          : ""
-      }
-
-      ${
-        analysis.basic.memoryHook
-          ? `
-            <h4>암기 훅</h4>
-            <p class="analysis-box">${escapeHTML(analysis.basic.memoryHook)}</p>
-          `
-          : ""
-      }
-    </section>
-  `;
-}
-
-function renderDeepAnalysis(analysis) {
-  if (!analysis?.deep) {
-    return `
-      <section class="card">
-        <h3>심화 분석</h3>
-        <p class="muted">아직 이 문장의 심화 분석이 등록되지 않았습니다.</p>
-      </section>
-    `;
-  }
-
-  const chunks = analysis.deep.chunks?.length
-    ? analysis.deep.chunks.map(chunk => `
-        <li>
-          <strong>${escapeHTML(chunk.role)}</strong>:
-          ${escapeHTML(chunk.text)}
-          ${chunk.note ? `<p class="muted">${escapeHTML(chunk.note)}</p>` : ""}
-        </li>
-      `).join("")
-    : `<li class="muted">성분 분석이 아직 등록되지 않았습니다.</li>`;
-
-  const grammarPoints = analysis.deep.grammarPoints?.length
-    ? analysis.deep.grammarPoints.map(point => {
-        const tag = getTag(point.tagId);
-
-        return `
-          <article class="analysis-box">
-            <p><strong>${escapeHTML(tag?.label || point.tagId)}</strong></p>
-            ${point.evidence ? `<p class="code">${escapeHTML(point.evidence)}</p>` : ""}
-            <p>${escapeHTML(point.explanation || "")}</p>
-          </article>
-        `;
-      }).join("")
-    : `<p class="muted">문법 포인트가 아직 등록되지 않았습니다.</p>`;
-
-  return `
-    <section class="card">
-      <h3>심화 분석</h3>
-
-      <h4>성분 분석</h4>
-      <ul class="chunk-list">
-        ${chunks}
-      </ul>
-
-      <h4>문법 포인트</h4>
-      ${grammarPoints}
-    </section>
+    <h4>직독직해 청크</h4>
+    <ul>
+      ${sentence.translationChunks.map(chunk => {
+        const text = typeof chunk === "string" ? chunk : chunk.text;
+        return `<li>${escapeHTML(text || "")}</li>`;
+      }).join("")}
+    </ul>
   `;
 }
 
 export function renderSentenceAnalysisView(sentenceId) {
   const sentence = getSentence(sentenceId);
   const tagData = getSentenceTagData(sentenceId);
-  const analysis = getAnalysis(sentenceId);
 
   if (!sentence) {
     return `
@@ -212,19 +133,7 @@ export function renderSentenceAnalysisView(sentenceId) {
           : `<p class="muted">해석은 아직 등록되지 않았습니다.</p>`
       }
 
-      ${
-        sentence.translationChunks?.length
-          ? `
-            <h4>직독직해 청크</h4>
-            <ul>
-              ${sentence.translationChunks.map(chunk => {
-                const text = typeof chunk === "string" ? chunk : chunk.text;
-                return `<li>${escapeHTML(text || "")}</li>`;
-              }).join("")}
-            </ul>
-          `
-          : ""
-      }
+      ${renderTranslationChunks(sentence)}
 
       <div class="button-row">
         <button data-action="go-application" data-sentence-id="${sentence.id}">
@@ -236,7 +145,13 @@ export function renderSentenceAnalysisView(sentenceId) {
     ${renderSentenceTags(tagData)}
     ${renderList("시험 포인트", tagData?.examPoints || [], "아직 시험 포인트가 없습니다.")}
     ${renderList("함정 포인트", tagData?.traps || [], "아직 함정 포인트가 없습니다.")}
-    ${renderBasicAnalysis(analysis)}
-    ${renderDeepAnalysis(analysis)}
+
+    <section class="card">
+      <h3>정밀 분석</h3>
+      <p class="muted">
+        현재 이 화면은 500문장 초벌 태깅을 우선 표시합니다.
+        문장별 세부 성분 분석은 이후 별도 분석 DB로 확장할 수 있습니다.
+      </p>
+    </section>
   `;
 }
