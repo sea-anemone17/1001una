@@ -1,5 +1,5 @@
 import { render } from "../ui/render.js";
-import { goHome, goChapter, goSentence } from "./router.js";
+import { goHome, goChapter, goSentence, goTaxonomy } from "./router.js";
 import { backupUserData, loadUserData } from "../storage/db.js";
 
 function handleClick(event) {
@@ -15,6 +15,11 @@ function handleClick(event) {
 
   if (action === "go-chapter") {
     goChapter(actionTarget.dataset.chapterId);
+    return;
+  }
+
+  if (action === "go-taxonomy") {
+    goTaxonomy();
     return;
   }
 
