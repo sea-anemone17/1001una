@@ -5,6 +5,7 @@ import { renderSentenceAnalysisView } from "./sentence-analysis-view.js";
 import { setHTML, $ } from "../utils/dom.js";
 import { renderTaxonomyView } from "./taxonomy-view.js";
 import { renderApplicationView } from "./application-view.js";
+import { renderDashboardView } from "./dashboard-view.js";
 
 export function render() {
   const app = $("#app");
@@ -28,6 +29,11 @@ export function render() {
 
   if (state.currentView === "taxonomy") {
    setHTML(app, renderTaxonomyView());
+    return;
+  }
+
+  if (state.currentView === "dashboard") {
+    setHTML(app, renderDashboardView());
     return;
   }
 
