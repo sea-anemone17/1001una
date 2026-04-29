@@ -1,7 +1,8 @@
 export const state = {
   currentView: "home",
   selectedChapterId: null,
-  selectedSentenceId: null
+  selectedSentenceId: null,
+  selectedGateConfidence: null
 };
 
 export function setView(viewName) {
@@ -16,6 +17,10 @@ export function setSelectedSentence(sentenceId) {
   state.selectedSentenceId = Number(sentenceId);
 }
 
-export function setSelectedApplicationSentence(sentenceId) {
-  state.selectedSentenceId = Number(sentenceId);
+export function setSelectedGateConfidence(confidence) {
+  state.selectedGateConfidence = confidence;
+}
+
+export function resetGateConfidence() {
+  state.selectedGateConfidence = null;
 }
