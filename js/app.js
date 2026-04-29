@@ -1,5 +1,5 @@
 import { render } from "../ui/render.js";
-import { goHome, goChapter, goSentence, goTaxonomy, goApplication } from "./router.js";
+import { goHome, goChapter, goSentence, goTaxonomy, goApplication, goDashboard } from "./router.js";
 import { backupUserData, loadUserData } from "../storage/db.js";
 import { gradeChoiceQuestion } from "../engine/grading-engine.js";
 import { getApplicationById } from "../ui/application-view.js";
@@ -19,6 +19,11 @@ function handleClick(event) {
 
   if (action === "go-home") {
     goHome();
+    return;
+  }
+
+  if (action === "go-dashboard") {
+    goDashboard();
     return;
   }
 
