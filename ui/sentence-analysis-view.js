@@ -1,29 +1,168 @@
 import { GENERATED_SENTENCES } from "../data/generated/sentences.generated.js";
+import { GENERATED_SENTENCE_TAGS } from "../data/generated/sentence-tags.generated.js";
 import { ANALYSES_CHAPTER_01 } from "../data/analyses/analysis-chapter-01.js";
 import { GRAMMAR_TAGS } from "../data/grammar-tags.js";
+import { TRANSFORM_RULES } from "../data/transform-rules.js";
+import { CONTRAST_TAGS } from "../data/contrast-tags.js";
 import { escapeHTML } from "../utils/sanitize.js";
 
 function getSentence(sentenceId) {
   return GENERATED_SENTENCES.find(sentence => sentence.id === Number(sentenceId));
 }
 
+function getSentenceTagData(sentenceId) {
+  return GENERATED_SENTENCE_TAGS?.[Number(sentenceId)] || null;
+}
+
 function getTag(tagId) {
   return GRAMMAR_TAGS.find(tag => tag.id === tagId);
+}
+
+function getTransformRule(ruleId) {
+  return TRANSFORM_RULES.find(rule => rule.id === ruleId);
+}
+
+function getContrastTag(contrastId) {
+  return CONTRAST_TAGS.find(contrast => contrast.id === contrastId);
 }
 
 function getAnalysis(sentenceId) {
   return ANALYSES_CHAPTER_01?.[Number(sentenceId)] || null;
 }
 
-function renderTagBadges(tagIds = []) {
+function renderTagBadges(tagIds = [], emptyText = "없음") {
   if (!tagIds.length) {
-    return `<span class="badge">태그 미등록</span>`;
+    return `<span class="badge">${escapeHTML(emptyText)}</span>`;
   }
 
   return tagIds.map(tagId => {
     const tag = getTag(tagId);
-    return `<span class="badge">${escapeHTML(tag?.label || tagId)}</span>`;
+    return `<span class="badge" title="${escapeHTML(tagId)}">${escapeHTML(tag?.label || tagId)}</span>`;
   }).join("");
+}
+
+function renderList(title, items = [], emptyText = "등록된 내용이 없습니다.") {
+  return `
+    <section class="card">
+      <h3>${escapeHTML(title)}</h3>
+      ${
+        items.length
+          ? `<ul>${items.map(item => `<li>${escapeHTML(item)}</li>`).join("")}</ul>`
+          : `<p class="muted">${escapeHTML(emptyText)}</p>`
+      }
+    </section>
+  `;
+}
+
+function renderSentenceTags(tagData) {
+  if (!tagData) {
+    return `
+      <section class="card">
+        <h3>초벌 태깅 정보</h3>
+        <p class="muted">아직 이 문장의 태깅 정보가 없습니다.</p>
+      </section>
+    `;
+  }
+
+  return `
+    <section class="card">
+      <h3>초벌 태깅 정보</h3>
+
+      <h4>확정 태그</h4>
+      <div class="badge-row">
+        ${renderTagBadges(tagData.tagIds, "확정 태그 없음")}
+      </div>
+
+      <h4>보조 태그</h4>
+      <div class="badge-row">
+        ${renderTagBadges(tagData.subTagIds, "보조 태그 없음")}
+      </div>
+
+      <h4>후보 태그</h4>
+      <div class="badge-row">
+        ${renderTagBadges(tagData.candidateTagIds, "후보 태그 없음")}
+      </div>
+
+      <div class="badge-row">
+        <span class="badge">난도: ${escapeHTML(tagData.difficulty || "미정")}</span>
+        <span class="badge">위험도: ${escapeHTML(String(tagData.risk ?? "-"))}</span>
+        <span class="badge">상태: ${escapeHTML(tagData.reviewStatus || "draft")}</span>
+      </div>
+    </section>
+  `;
+}
+
+function renderContrastTags(contrastIds = []) {
+  if (!contrastIds.length) {
+    return `
+      <section class="card">
+        <h3>비교 개념</h3>
+        <p class="muted">연결된 비교 개념이 없습니다.</p>
+      </section>
+    `;
+  }
+
+  return `
+    <section class="card">
+      <h3>비교 개념</h3>
+      <div class="analysis-stack">
+        ${contrastIds.map(id => {
+          const contrast = getContrastTag(id);
+          return `
+            <article class="analysis-box">
+              <div class="taxonomy-title">
+                <span class="badge">${escapeHTML(id)}</span>
+                <strong>${escapeHTML(contrast?.label || id)}</strong>
+              </div>
+              <p>${escapeHTML(contrast?.summary || "설명이 아직 등록되지 않았습니다.")}</p>
+            </article>
+          `;
+        }).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderTransformRules(ruleIds = []) {
+  if (!ruleIds.length) {
+    return `
+      <section class="card">
+        <h3>변형 가능 포인트</h3>
+        <p class="muted">연결된 변형 규칙이 없습니다.</p>
+      </section>
+    `;
+  }
+
+  return `
+    <section class="card">
+      <h3>변형 가능 포인트</h3>
+      <div class="analysis-stack">
+        ${ruleIds.map(id => {
+          const rule = getTransformRule(id);
+          return `
+            <article class="analysis-box">
+              <div class="taxonomy-title">
+                <span class="badge">${escapeHTML(id)}</span>
+                <strong>${escapeHTML(rule?.label || id)}</strong>
+              </div>
+              ${
+                rule
+                  ? `
+                    <p class="code">${escapeHTML(rule.fromPattern || "")} → ${escapeHTML(rule.toPattern || "")}</p>
+                    <p>${escapeHTML(rule.explanation || "")}</p>
+                    <div class="badge-row">
+                      <span class="badge">${rule.isValid ? "정상 변형" : "오답 변형"}</span>
+                      <span class="badge">위험도 ${escapeHTML(String(rule.risk ?? "-"))}</span>
+                    </div>
+                  `
+                  : `<p class="muted">규칙 설명이 아직 등록되지 않았습니다.</p>`
+              }
+            </article>
+          `;
+        }).join("")}
+      </div>
+    </section>
+  `;
 }
 
 function renderBasicAnalysis(analysis) {
@@ -31,9 +170,7 @@ function renderBasicAnalysis(analysis) {
     return `
       <section class="card">
         <h3>기본 분석</h3>
-        <p class="muted">
-          아직 이 문장의 기본 분석이 등록되지 않았습니다.
-        </p>
+        <p class="muted">아직 이 문장의 기본 분석이 등록되지 않았습니다.</p>
       </section>
     `;
   }
@@ -71,9 +208,7 @@ function renderDeepAnalysis(analysis) {
     return `
       <section class="card">
         <h3>심화 분석</h3>
-        <p class="muted">
-          아직 이 문장의 심화 분석이 등록되지 않았습니다.
-        </p>
+        <p class="muted">아직 이 문장의 심화 분석이 등록되지 않았습니다.</p>
       </section>
     `;
   }
@@ -119,6 +254,7 @@ function renderDeepAnalysis(analysis) {
 
 export function renderSentenceAnalysisView(sentenceId) {
   const sentence = getSentence(sentenceId);
+  const tagData = getSentenceTagData(sentenceId);
   const analysis = getAnalysis(sentenceId);
 
   if (!sentence) {
@@ -133,7 +269,7 @@ export function renderSentenceAnalysisView(sentenceId) {
   return `
     <section class="card">
       <button class="secondary" data-action="go-chapter" data-chapter-id="${sentence.chapterId}">
-        ← 챕터로
+        ← 유닛으로
       </button>
 
       <h2>문장 ${escapeHTML(sentence.displayId || sentence.id)} 분석</h2>
@@ -145,9 +281,16 @@ export function renderSentenceAnalysisView(sentenceId) {
           : `<p class="muted">해석은 아직 등록되지 않았습니다.</p>`
       }
 
-      <div class="badge-row">
-        ${renderTagBadges(sentence.tagIds)}
-      </div>
+      ${
+        sentence.translationChunks?.length
+          ? `
+            <h4>직독직해 청크</h4>
+            <ul>
+              ${sentence.translationChunks.map(chunk => `<li>${escapeHTML(chunk)}</li>`).join("")}
+            </ul>
+          `
+          : ""
+      }
 
       <div class="button-row">
         <button data-action="go-application" data-sentence-id="${sentence.id}">
@@ -156,6 +299,11 @@ export function renderSentenceAnalysisView(sentenceId) {
       </div>
     </section>
 
+    ${renderSentenceTags(tagData)}
+    ${renderList("시험 포인트", tagData?.examPoints || [], "아직 시험 포인트가 없습니다.")}
+    ${renderList("함정 포인트", tagData?.traps || [], "아직 함정 포인트가 없습니다.")}
+    ${renderContrastTags(tagData?.contrastTagIds || [])}
+    ${renderTransformRules(tagData?.transformableRuleIds || [])}
     ${renderBasicAnalysis(analysis)}
     ${renderDeepAnalysis(analysis)}
   `;
