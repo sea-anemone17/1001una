@@ -1,5 +1,6 @@
 import { state, setView, setSelectedChapter, setSelectedSentence } from "./state.js";
 import { render } from "../ui/render.js";
+import { markSentenceViewed } from "../storage/db.js";
 
 export function goHome() {
   setView("home");
@@ -14,6 +15,7 @@ export function goChapter(chapterId) {
 
 export function goSentence(sentenceId) {
   setSelectedSentence(sentenceId);
+  markSentenceViewed(sentenceId);
   setView("sentence-analysis");
   render();
 }
