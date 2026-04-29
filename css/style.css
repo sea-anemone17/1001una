@@ -167,3 +167,40 @@ button:hover,
 .code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
+
+.taxonomy-map {
+  display: grid;
+  gap: 14px;
+}
+
+.taxonomy-node {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  background: #fffdf7;
+}
+
+.taxonomy-title {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.taxonomy-children {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.taxonomy-node.depth-1 {
+  background: #fffaf0;
+}
+
+.taxonomy-node.depth-2 {
+  background: #ffffff;
+}
+
+.taxonomy-node.depth-3 {
+  background: #fbf7ec;
+}
