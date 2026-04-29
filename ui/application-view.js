@@ -1,5 +1,5 @@
 import { APPLICATIONS_CHAPTER_01 } from "../data/applications/app-chapter-01.js";
-import { SENTENCES_CHAPTER_01 } from "../data/sentences/chapter-01.js";
+import { GENERATED_SENTENCES } from "../data/generated/sentences.generated.js";
 import { GRAMMAR_TAGS } from "../data/grammar-tags.js";
 import { escapeHTML } from "../utils/sanitize.js";
 
@@ -8,7 +8,7 @@ function getApplicationsBySentence(sentenceId) {
 }
 
 function getSentence(sentenceId) {
-  return SENTENCES_CHAPTER_01.find(sentence => sentence.id === Number(sentenceId));
+  return GENERATED_SENTENCES.find(sentence => sentence.id === Number(sentenceId));
 }
 
 function getTag(tagId) {
@@ -35,6 +35,7 @@ export function renderApplicationView(sentenceId) {
           ← 문장 분석으로
         </button>
         <h2>적용 문제가 없습니다.</h2>
+        <p class="sentence-text">${escapeHTML(sentence.text)}</p>
         <p class="muted">아직 이 문장에는 적용 문제가 등록되지 않았습니다.</p>
       </section>
     `;
@@ -79,7 +80,7 @@ export function renderApplicationView(sentenceId) {
 
       <h2>적용 훈련</h2>
       <p class="sentence-text">${escapeHTML(sentence.text)}</p>
-      <p class="muted">${escapeHTML(sentence.translation)}</p>
+      <p class="muted">${escapeHTML(sentence.translation || "해석은 아직 등록되지 않았습니다.")}</p>
     </section>
 
     ${questionCards}
