@@ -3,11 +3,11 @@ export const STORAGE_KEYS = {
   USER_BACKUP: "1001una_v2_user_backup"
 };
 
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
 
 export const DEFAULT_USER_DATA = {
   schemaVersion: CURRENT_SCHEMA_VERSION,
-  appVersionAtLastUse: "0.1.0",
+  appVersionAtLastUse: "1.0.0",
 
   learnerProfile: null,
 
@@ -20,6 +20,7 @@ export const DEFAULT_USER_DATA = {
   wrongLogs: [],
   mistakeLogs: [],
   confidenceLogs: [],
+  applicationLogs: [],
 
   tagMastery: {},
 
