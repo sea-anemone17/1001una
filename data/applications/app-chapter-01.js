@@ -1,7 +1,7 @@
 export const APPLICATIONS_CHAPTER_01 = [
   {
-    id: "APP-001-01",
-    sentenceId: 1,
+    id: "APP-260-01",
+    sentenceId: 260,
     type: "choice",
     tagId: "PASS-MODAL-BEPP",
     prompt: "다음 중 should be acknowledged의 구조로 알맞은 것은?",
@@ -15,8 +15,8 @@ export const APPLICATIONS_CHAPTER_01 = [
     explanation: "수동 의미이므로 조동사 should 뒤에 be + p.p.가 와야 합니다."
   },
   {
-    id: "APP-001-02",
-    sentenceId: 1,
+    id: "APP-260-02",
+    sentenceId: 260,
     type: "choice",
     tagId: "AGR-PARALLEL-PP",
     prompt: "acknowledged and respected가 맞는 이유는?",
@@ -27,13 +27,13 @@ export const APPLICATIONS_CHAPTER_01 = [
       "acknowledged가 현재분사이기 때문"
     ],
     answerIndex: 0,
-    explanation: "and 앞뒤가 acknowledged / respected로 같은 p.p. 형태를 이루므로 병렬 구조가 맞습니다."
+    explanation: "acknowledged / respected가 같은 p.p. 형태를 이루므로 병렬 구조가 맞습니다."
   },
   {
-    id: "APP-002-01",
-    sentenceId: 2,
+    id: "APP-261-01",
+    sentenceId: 261,
     type: "choice",
-    tagId: "CLAUSE-MANDATIVE-SHOULD",
+    tagId: "CLAUSE-MANDATIVE-ADJTHAT",
     prompt: "It is necessary that you exercise에서 exercise가 쓰인 이유는?",
     choices: [
       "과거형이기 때문에",
@@ -45,18 +45,48 @@ export const APPLICATIONS_CHAPTER_01 = [
     explanation: "It is necessary that S V 구조에서 that절 안에는 동사원형이 올 수 있습니다."
   },
   {
-    id: "APP-003-01",
-    sentenceId: 3,
+    id: "APP-262-01",
+    sentenceId: 262,
     type: "choice",
-    tagId: "CLAUSE-MANDATIVE-SHOULD",
+    tagId: "PASS-BASIC-BEPP",
+    prompt: "be mastered가 필요한 이유는?",
+    choices: [
+      "principles가 숙달되는 대상이므로 수동태가 필요하기 때문",
+      "mastered가 현재분사이기 때문",
+      "imperative 뒤에는 항상 과거형이 오기 때문",
+      "grammar가 복수이기 때문"
+    ],
+    answerIndex: 0,
+    explanation: "the fundamental principles가 숙달되는 대상이므로 be + p.p. 수동태가 필요합니다."
+  },
+  {
+    id: "APP-263-01",
+    sentenceId: 263,
+    type: "choice",
+    tagId: "CLAUSE-MANDATIVE-NEGBARE",
     prompt: "that the child not eat에서 not eat이 맞는 이유는?",
     choices: [
       "not 뒤에는 항상 과거형이 오기 때문에",
-      "제안 계열 명사 suggestion 뒤 that절에서 should가 생략되고 동사원형이 올 수 있기 때문에",
+      "제안 계열 명사 suggestion 뒤 that절에서 should가 생략되고 부정은 not + 동사원형이 되기 때문에",
       "eat이 명사로 쓰였기 때문에",
       "the child가 복수이기 때문에"
     ],
     answerIndex: 1,
     explanation: "suggestion 뒤 that절에서 should가 생략될 수 있고, 부정은 not + 동사원형 형태로 나타납니다."
+  },
+  {
+    id: "APP-264-01",
+    sentenceId: 264,
+    type: "choice",
+    tagId: "MODAL-SHOULD-EMOTIVE",
+    prompt: "should print에서 should의 역할로 가장 알맞은 것은?",
+    choices: [
+      "미래 시제 표시",
+      "놀라움·의외성의 뉘앙스",
+      "과거 습관",
+      "수동태 표시"
+    ],
+    answerIndex: 1,
+    explanation: "surprising that S should V에서 should는 놀라움이나 의외성을 나타낼 수 있습니다."
   }
 ];
