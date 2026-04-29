@@ -63,6 +63,43 @@ function handleClick(event) {
     
     return;
   }
+
+  if (action === "submit-diagnosis") {
+    const questionId = actionTarget.dataset.questionId;
+    const diagnosisId = actionTarget.dataset.diagnosisId;
+    const isCorrect = actionTarget.dataset.isCorrect === "true";
+
+    const question = getApplicationById(questionId);
+
+    if (isCorrect) {
+      updateTagMastery(
+        question.tagId,
+        diagnosisId === "GUESSED" ? "lowConfidence" : "correct"
+      );
+    } else {
+      if (diagnosisId === "MISTAKE") {
+        logMistake({
+          questionId,
+          tagId: question.tagId,
+          reason: diagnosisId
+        });
+      } else {
+        logWrongAnswer({
+          questionId,
+          tagId: question.tagId,
+          reason: diagnosisId
+        });
+      }
+
+      updateTagMastery(question.tagId, "wrong");
+    }
+
+    actionTarget.closest(".diagnosis-box").innerHTML = `
+      <p><strong>기록되었습니다.</strong></p>
+    `;
+
+    return;
+  }
   
 }
 
