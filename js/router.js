@@ -7,6 +7,11 @@ export function goHome() {
   render();
 }
 
+export function goDashboard() {
+  setView("dashboard");
+  render();
+}
+
 export function goChapter(chapterId) {
   setSelectedChapter(chapterId);
   setView("chapter");
