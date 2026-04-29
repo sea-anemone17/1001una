@@ -15,3 +15,7 @@ export function setSelectedChapter(chapterId) {
 export function setSelectedSentence(sentenceId) {
   state.selectedSentenceId = Number(sentenceId);
 }
+
+export function setSelectedApplicationSentence(sentenceId) {
+  state.selectedSentenceId = Number(sentenceId);
+}
