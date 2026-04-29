@@ -284,3 +284,80 @@ button:hover,
   padding: 12px;
   background: #fffdf7;
 }
+
+.danger-button {
+  background: #f3d6d6 !important;
+  color: #7a2f2f !important;
+}
+
+.hero-card {
+  background: linear-gradient(180deg, #fffdf7 0%, #fff5df 100%);
+}
+
+.stat-card {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 8px 0 0;
+  color: var(--accent-dark);
+}
+
+.mastery-list {
+  display: grid;
+  gap: 10px;
+}
+
+.mastery-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+  background: #fffdf7;
+}
+
+.choice-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.choice-button {
+  justify-content: flex-start;
+  text-align: left;
+  border-radius: 14px;
+  padding: 12px 14px;
+  white-space: normal;
+}
+
+.feedback-box {
+  margin-top: 14px;
+}
+
+.feedback-box.correct {
+  border-left: 4px solid var(--accent);
+  background: #f2f8ec;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.feedback-box.wrong {
+  border-left: 4px solid var(--danger);
+  background: #fff1f1;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.diagnosis-box {
+  margin-top: 14px;
+  padding: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.diagnosis-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
