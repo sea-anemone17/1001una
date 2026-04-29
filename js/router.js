@@ -28,3 +28,9 @@ export function goTaxonomy() {
   setView("taxonomy");
   render();
 }
+
+export function goApplication(sentenceId) {
+  setSelectedSentence(sentenceId);
+  setView("application");
+  render();
+}
