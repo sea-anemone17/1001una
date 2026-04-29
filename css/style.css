@@ -248,3 +248,16 @@ button:hover,
   padding: 12px;
   border-radius: 12px;
 }
+
+.diagnosis-box {
+  margin-top: 14px;
+  padding: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.diagnosis-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
