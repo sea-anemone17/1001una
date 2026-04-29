@@ -217,3 +217,34 @@ button:hover,
   padding: 12px;
   background: #f8fff2;
 }
+
+.choice-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.choice-button {
+  justify-content: flex-start;
+  text-align: left;
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.feedback-box {
+  margin-top: 14px;
+}
+
+.feedback-box.correct {
+  border-left: 4px solid var(--accent);
+  background: #f2f8ec;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.feedback-box.wrong {
+  border-left: 4px solid var(--danger);
+  background: #fff1f1;
+  padding: 12px;
+  border-radius: 12px;
+}
