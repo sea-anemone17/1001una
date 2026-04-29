@@ -1,4 +1,4 @@
-import { SENTENCES_CHAPTER_01 } from "../data/sentences/chapter-01.js";
+import { GENERATED_SENTENCES } from "../data/generated/sentences.generated.js";
 import { GRAMMAR_TAGS } from "../data/grammar-tags.js";
 
 function getTagLabel(tagId) {
@@ -7,10 +7,11 @@ function getTagLabel(tagId) {
 
 export function buildReviewRecommendations(userData) {
   const recommendations = [];
-  const viewed = new Set(userData.progress?.viewedSentences || []);
+  const viewed = new Set((userData.progress?.viewedSentences || []).map(Number));
   const wrongTagCounts = {};
 
   for (const log of userData.wrongLogs || []) {
+    if (!log.tagId) continue;
     wrongTagCounts[log.tagId] = (wrongTagCounts[log.tagId] || 0) + 1;
   }
 
@@ -27,7 +28,8 @@ export function buildReviewRecommendations(userData) {
     });
   }
 
-  const unseen = SENTENCES_CHAPTER_01.filter(sentence => !viewed.has(sentence.id));
+  const unseen = GENERATED_SENTENCES.filter(sentence => !viewed.has(Number(sentence.id)));
+
   if (unseen.length) {
     recommendations.push({
       type: "sentence",
@@ -42,7 +44,7 @@ export function buildReviewRecommendations(userData) {
       type: "gate",
       title: "심화 관문 도전",
       description: "기본 학습 기록이 안정적입니다. 챕터별 어법 변형 문제에 도전해 보세요.",
-      chapterId: "CH01"
+      chapterId: "CH37"
     });
   }
 
