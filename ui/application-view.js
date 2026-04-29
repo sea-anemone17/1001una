@@ -2,6 +2,8 @@ import { GENERATED_SENTENCES } from "../data/generated/sentences.generated.js";
 import { GRAMMAR_TAGS } from "../data/grammar-tags.js";
 import { escapeHTML } from "../utils/sanitize.js";
 
+const APPLICATIONS_CHAPTER_01 = [];
+
 function getApplicationsBySentence(sentenceId) {
   return APPLICATIONS_CHAPTER_01.filter(app => app.sentenceId === Number(sentenceId));
 }
@@ -33,9 +35,14 @@ export function renderApplicationView(sentenceId) {
         <button class="secondary" data-action="go-sentence" data-sentence-id="${sentence.id}">
           ← 문장 분석으로
         </button>
-        <h2>적용 문제가 없습니다.</h2>
+        <h2>적용 문제 준비 중</h2>
         <p class="sentence-text">${escapeHTML(sentence.text)}</p>
-        <p class="muted">아직 이 문장에는 적용 문제가 등록되지 않았습니다.</p>
+        <p class="muted">
+          아직 이 문장에는 적용 문제가 등록되지 않았습니다.
+        </p>
+        <p class="muted">
+          현재는 문장 분석, 초벌 태그, 시험 포인트 확인을 먼저 사용할 수 있습니다.
+        </p>
       </section>
     `;
   }
@@ -87,5 +94,5 @@ export function renderApplicationView(sentenceId) {
 }
 
 export function getApplicationById(questionId) {
-  return APPLICATIONS_CHAPTER_01.find(question => question.id === questionId);
+  return APPLICATIONS_CHAPTER_01.find(question => question.id === questionId) || null;
 }
