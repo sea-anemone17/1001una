@@ -261,3 +261,26 @@ button:hover,
   gap: 8px;
   margin-top: 10px;
 }
+
+.stat-card {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 8px 0 0;
+  color: var(--accent-dark);
+}
+
+.mastery-list {
+  display: grid;
+  gap: 10px;
+}
+
+.mastery-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+  background: #fffdf7;
+}
