@@ -3,6 +3,7 @@ import { renderHomeView } from "./home-view.js";
 import { renderChapterView } from "./chapter-view.js";
 import { renderSentenceAnalysisView } from "./sentence-analysis-view.js";
 import { setHTML, $ } from "../utils/dom.js";
+import { renderTaxonomyView } from "./taxonomy-view.js";
 
 export function render() {
   const app = $("#app");
@@ -21,6 +22,11 @@ export function render() {
 
   if (state.currentView === "sentence-analysis") {
     setHTML(app, renderSentenceAnalysisView(state.selectedSentenceId));
+    return;
+  }
+
+  if (state.currentView === "taxonomy") {
+   setHTML(app, renderTaxonomyView());
     return;
   }
 
