@@ -204,3 +204,16 @@ button:hover,
 .taxonomy-node.depth-3 {
   background: #fbf7ec;
 }
+
+.taxonomy-tags {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.taxonomy-tag-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+  background: #f8fff2;
+}
