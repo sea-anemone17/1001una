@@ -49,6 +49,23 @@ export function renderAdvancedGateView(chapterId = "CH01", confidence = null) {
 
   const question = buildChapterGateQuestion(chapterId, getAttemptSeed(chapterId));
 
+  if (!question) {
+    return `
+      <section class="card">
+        <button class="secondary" data-action="go-chapter" data-chapter-id="${escapeHTML(chapterId)}">
+          ← 유닛으로
+        </button>
+        <h2>심화 관문 준비 중</h2>
+        <p class="muted">
+          이 유닛에는 아직 변형 문제가 등록되지 않았습니다.
+        </p>
+        <p class="muted">
+          현재 심화 관문은 Unit 37처럼 mutation-rules.js에 규칙이 등록된 유닛부터 작동합니다.
+        </p>
+      </section>
+    `;
+  }
+
   return `
     <section class="card">
       <button class="secondary" data-action="go-home">← 홈</button>
