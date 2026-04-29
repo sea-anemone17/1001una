@@ -5855,7 +5855,11 @@ export const GENERATED_SENTENCES = [
     "chapterId": "CH37",
     "text": "Animal protection groups insist that the rights of animals should be acknowledged and respected.",
     "translation": "동물 보호 단체는 주장한다 // 동물의 권리가 인정되어야 하고 존중받아야 한다고.",
-    "tagIds": [],
+    "tagIds": [
+      "CLAUSE-MANDATIVE-SHOULD",
+      "PASS-MODAL-BEPP",
+      "AGR-PARALLEL-PP"
+    ],
     "translationChunks": [
       {
         "text": "동물 보호 단체는 주장한다",
@@ -5873,7 +5877,10 @@ export const GENERATED_SENTENCES = [
     "chapterId": "CH37",
     "text": "It is necessary that you exercise frequently in order to be in good shape.",
     "translation": "필수적이다 // 자주 운동하는 것이 / 건강 상태가 좋기 위해서.",
-    "tagIds": [],
+    "tagIds": [
+      "CLAUSE-MANDATIVE-ADJTHAT",
+      "CLAUSE-MANDATIVE-BARE"
+    ],
     "translationChunks": [
       {
         "text": "필수적이다",
@@ -5895,7 +5902,10 @@ export const GENERATED_SENTENCES = [
     "chapterId": "CH37",
     "text": "In order to speak and write the English language correctly, it is imperative that the fundamental principles of the grammar be mastered.",
     "translation": "영어를 정확하게 말하고 쓰기 위해서, / 매우 중요하다 // (문법의) 기본적인 원칙이 / 숙달되는 것이.",
-    "tagIds": [],
+    "tagIds": [
+      "CLAUSE-MANDATIVE-ADJTHAT",
+      "PASS-BASIC-BEPP"
+    ],
     "translationChunks": [
       {
         "text": "영어를 정확하게 말하고 쓰기 위해서,",
@@ -5921,7 +5931,10 @@ export const GENERATED_SENTENCES = [
     "chapterId": "CH37",
     "text": "The doctor gave the suggestion that the child not eat too much sugar.",
     "translation": "의사는 제안했다 // 아이가 설탕을 너무 많이 먹지 않을 것을.",
-    "tagIds": [],
+    "tagIds": [
+      "CLAUSE-MANDATIVE-BARE",
+      "CLAUSE-MANDATIVE-NEGBARE"
+    ],
     "translationChunks": [
       {
         "text": "의사는 제안했다",
@@ -5939,7 +5952,10 @@ export const GENERATED_SENTENCES = [
     "chapterId": "CH37",
     "text": "It is certainly surprising that such a highly reputable magazine should print such a childish article.",
     "translation": "분명히 놀랍다 // 그렇게 평판이 좋은 잡지가 / 그런 유치한 기사를 싣는다는 것이.",
-    "tagIds": [],
+    "tagIds": [
+      "MODAL-SHOULD-EMOTIVE",
+      "CLAUSE-NOUN-THAT"
+    ],
     "translationChunks": [
       {
         "text": "분명히 놀랍다",
