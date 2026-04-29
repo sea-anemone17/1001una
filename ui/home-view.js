@@ -16,6 +16,9 @@ export function renderHomeView() {
         <button type="button" data-action="go-chapter" data-chapter-id="${chapter.id}">
           챕터 들어가기 →
         </button>
+        <button type="button" data-action="go-taxonomy">
+          문법 지도 보기 →
+        </button>
       </div>
     </article>
   `).join("");
