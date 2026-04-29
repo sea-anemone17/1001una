@@ -1,4 +1,3 @@
-import { APPLICATIONS_CHAPTER_01 } from "../data/applications/app-chapter-01.js";
 import { GENERATED_SENTENCES } from "../data/generated/sentences.generated.js";
 import { GRAMMAR_TAGS } from "../data/grammar-tags.js";
 import { escapeHTML } from "../utils/sanitize.js";
