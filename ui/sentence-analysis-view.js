@@ -219,9 +219,7 @@ export function renderSentenceAnalysisView(sentenceId) {
             <ul>
               ${sentence.translationChunks.map(chunk => {
                 const text = typeof chunk === "string" ? chunk : chunk.text;
-                const breakAfter = typeof chunk === "object" && chunk.breakAfter ? ` / ${chunk.breakAfter}` : "";
-
-                return `<li>${escapeHTML(text || "")}${escapeHTML(breakAfter)}</li>`;
+                return `<li>${escapeHTML(text || "")}</li>`;
               }).join("")}
             </ul>
           `
