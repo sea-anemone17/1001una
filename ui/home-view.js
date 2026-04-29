@@ -1,0 +1,36 @@
+import { CHAPTERS } from "../data/chapters.js";
+import { escapeHTML } from "../utils/sanitize.js";
+
+export function renderHomeView() {
+  const chapters = CHAPTERS.map(chapter => `
+    <article class="card">
+      <h2>${escapeHTML(chapter.title)}</h2>
+      <p class="muted">${escapeHTML(chapter.description)}</p>
+      <div class="badge-row">
+        <span class="badge">${chapter.sentenceIds.length}문장</span>
+        <span class="badge">${escapeHTML(chapter.status)}</span>
+      </div>
+      <div class="button-row">
+        <button data-action="go-chapter" data-chapter-id="${chapter.id}">
+          챕터 들어가기
+        </button>
+      </div>
+    </article>
+  `).join("");
+
+  return `
+    <section class="card">
+      <h2>1001una v2</h2>
+      <p>
+        문장을 외우는 대신, 문법 구조를 이해하고 어법 변형을 간파하는 연습을 합니다.
+      </p>
+      <p class="muted">
+        v0에서는 홈, 챕터 선택, 문장 분석 화면만 구현합니다.
+      </p>
+    </section>
+
+    <section class="grid grid-2">
+      ${chapters}
+    </section>
+  `;
+}
