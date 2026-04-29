@@ -361,3 +361,17 @@ button:hover,
   gap: 8px;
   margin-top: 10px;
 }
+
+.analysis-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background: #fff8e8;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  overflow-wrap: anywhere;
+}
