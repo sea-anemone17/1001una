@@ -2,8 +2,6 @@ import { GENERATED_SENTENCES } from "../data/generated/sentences.generated.js";
 import { GENERATED_SENTENCE_TAGS } from "../data/generated/sentence-tags.generated.js";
 import { ANALYSES_CHAPTER_01 } from "../data/analyses/analysis-chapter-01.js";
 import { GRAMMAR_TAGS } from "../data/grammar-tags.js";
-import { TRANSFORM_RULES } from "../data/transform-rules.js";
-import { CONTRAST_TAGS } from "../data/contrast-tags.js";
 import { escapeHTML } from "../utils/sanitize.js";
 
 function getSentence(sentenceId) {
@@ -18,14 +16,6 @@ function getTag(tagId) {
   return GRAMMAR_TAGS.find(tag => tag.id === tagId);
 }
 
-function getTransformRule(ruleId) {
-  return TRANSFORM_RULES.find(rule => rule.id === ruleId);
-}
-
-function getContrastTag(contrastId) {
-  return CONTRAST_TAGS.find(contrast => contrast.id === contrastId);
-}
-
 function getAnalysis(sentenceId) {
   return ANALYSES_CHAPTER_01?.[Number(sentenceId)] || null;
 }
@@ -37,7 +27,11 @@ function renderTagBadges(tagIds = [], emptyText = "없음") {
 
   return tagIds.map(tagId => {
     const tag = getTag(tagId);
-    return `<span class="badge" title="${escapeHTML(tagId)}">${escapeHTML(tag?.label || tagId)}</span>`;
+    return `
+      <span class="badge" title="${escapeHTML(tagId)}">
+        ${escapeHTML(tag?.label || tagId)}
+      </span>
+    `;
   }).join("");
 }
 
@@ -83,83 +77,20 @@ function renderSentenceTags(tagData) {
         ${renderTagBadges(tagData.candidateTagIds, "후보 태그 없음")}
       </div>
 
+      <h4>비교 개념 ID</h4>
+      <div class="badge-row">
+        ${renderTagBadges(tagData.contrastTagIds, "비교 개념 없음")}
+      </div>
+
+      <h4>변형 규칙 ID</h4>
+      <div class="badge-row">
+        ${renderTagBadges(tagData.transformableRuleIds, "변형 규칙 없음")}
+      </div>
+
       <div class="badge-row">
         <span class="badge">난도: ${escapeHTML(tagData.difficulty || "미정")}</span>
         <span class="badge">위험도: ${escapeHTML(String(tagData.risk ?? "-"))}</span>
         <span class="badge">상태: ${escapeHTML(tagData.reviewStatus || "draft")}</span>
-      </div>
-    </section>
-  `;
-}
-
-function renderContrastTags(contrastIds = []) {
-  if (!contrastIds.length) {
-    return `
-      <section class="card">
-        <h3>비교 개념</h3>
-        <p class="muted">연결된 비교 개념이 없습니다.</p>
-      </section>
-    `;
-  }
-
-  return `
-    <section class="card">
-      <h3>비교 개념</h3>
-      <div class="analysis-stack">
-        ${contrastIds.map(id => {
-          const contrast = getContrastTag(id);
-          return `
-            <article class="analysis-box">
-              <div class="taxonomy-title">
-                <span class="badge">${escapeHTML(id)}</span>
-                <strong>${escapeHTML(contrast?.label || id)}</strong>
-              </div>
-              <p>${escapeHTML(contrast?.summary || "설명이 아직 등록되지 않았습니다.")}</p>
-            </article>
-          `;
-        }).join("")}
-      </div>
-    </section>
-  `;
-}
-
-function renderTransformRules(ruleIds = []) {
-  if (!ruleIds.length) {
-    return `
-      <section class="card">
-        <h3>변형 가능 포인트</h3>
-        <p class="muted">연결된 변형 규칙이 없습니다.</p>
-      </section>
-    `;
-  }
-
-  return `
-    <section class="card">
-      <h3>변형 가능 포인트</h3>
-      <div class="analysis-stack">
-        ${ruleIds.map(id => {
-          const rule = getTransformRule(id);
-          return `
-            <article class="analysis-box">
-              <div class="taxonomy-title">
-                <span class="badge">${escapeHTML(id)}</span>
-                <strong>${escapeHTML(rule?.label || id)}</strong>
-              </div>
-              ${
-                rule
-                  ? `
-                    <p class="code">${escapeHTML(rule.fromPattern || "")} → ${escapeHTML(rule.toPattern || "")}</p>
-                    <p>${escapeHTML(rule.explanation || "")}</p>
-                    <div class="badge-row">
-                      <span class="badge">${rule.isValid ? "정상 변형" : "오답 변형"}</span>
-                      <span class="badge">위험도 ${escapeHTML(String(rule.risk ?? "-"))}</span>
-                    </div>
-                  `
-                  : `<p class="muted">규칙 설명이 아직 등록되지 않았습니다.</p>`
-              }
-            </article>
-          `;
-        }).join("")}
       </div>
     </section>
   `;
@@ -302,8 +233,6 @@ export function renderSentenceAnalysisView(sentenceId) {
     ${renderSentenceTags(tagData)}
     ${renderList("시험 포인트", tagData?.examPoints || [], "아직 시험 포인트가 없습니다.")}
     ${renderList("함정 포인트", tagData?.traps || [], "아직 함정 포인트가 없습니다.")}
-    ${renderContrastTags(tagData?.contrastTagIds || [])}
-    ${renderTransformRules(tagData?.transformableRuleIds || [])}
     ${renderBasicAnalysis(analysis)}
     ${renderDeepAnalysis(analysis)}
   `;
