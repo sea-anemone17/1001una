@@ -23,3 +23,8 @@ export function goSentence(sentenceId) {
 export function getRouteState() {
   return state;
 }
+
+export function goTaxonomy() {
+  setView("taxonomy");
+  render();
+}
