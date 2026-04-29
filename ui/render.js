@@ -6,10 +6,12 @@ import { setHTML, $ } from "../utils/dom.js";
 import { renderTaxonomyView } from "./taxonomy-view.js";
 import { renderApplicationView } from "./application-view.js";
 import { renderDashboardView } from "./dashboard-view.js";
+import { renderAdvancedGateView } from "./advanced-gate-view.js";
+import { renderReviewView } from "./review-view.js";
+import { renderSettingsView } from "./settings-view.js";
 
 export function render() {
   const app = $("#app");
-
   if (!app) return;
 
   if (state.currentView === "home") {
@@ -28,7 +30,7 @@ export function render() {
   }
 
   if (state.currentView === "taxonomy") {
-   setHTML(app, renderTaxonomyView());
+    setHTML(app, renderTaxonomyView());
     return;
   }
 
@@ -39,6 +41,21 @@ export function render() {
 
   if (state.currentView === "application") {
     setHTML(app, renderApplicationView(state.selectedSentenceId));
+    return;
+  }
+
+  if (state.currentView === "advanced-gate") {
+    setHTML(app, renderAdvancedGateView(state.selectedChapterId || "CH01", state.selectedGateConfidence));
+    return;
+  }
+
+  if (state.currentView === "review") {
+    setHTML(app, renderReviewView());
+    return;
+  }
+
+  if (state.currentView === "settings") {
+    setHTML(app, renderSettingsView());
     return;
   }
 
