@@ -19,6 +19,9 @@ export function renderHomeView() {
         <button type="button" data-action="go-taxonomy">
           문법 지도 보기 →
         </button>
+        <button type="button" data-action="go-dashboard">
+          대시보드 보기 →
+        </button>
       </div>
     </article>
   `).join("");
