@@ -217,7 +217,12 @@ export function renderSentenceAnalysisView(sentenceId) {
           ? `
             <h4>직독직해 청크</h4>
             <ul>
-              ${sentence.translationChunks.map(chunk => `<li>${escapeHTML(chunk)}</li>`).join("")}
+              ${sentence.translationChunks.map(chunk => {
+                const text = typeof chunk === "string" ? chunk : chunk.text;
+                const breakAfter = typeof chunk === "object" && chunk.breakAfter ? ` / ${chunk.breakAfter}` : "";
+
+                return `<li>${escapeHTML(text || "")}${escapeHTML(breakAfter)}</li>`;
+              }).join("")}
             </ul>
           `
           : ""
