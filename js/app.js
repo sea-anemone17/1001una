@@ -1,5 +1,6 @@
 import { render } from "../ui/render.js";
 import { goHome, goChapter, goSentence } from "./router.js";
+import { backupUserData, loadUserData } from "../storage/db.js";
 
 function handleClick(event) {
   const actionTarget = event.target.closest("[data-action]");
@@ -24,4 +25,8 @@ function handleClick(event) {
 }
 
 document.addEventListener("click", handleClick);
+
+loadUserData();
+backupUserData();
+
 render();
