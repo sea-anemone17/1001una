@@ -1,11 +1,10 @@
-import { CHAPTERS } from "../data/chapters.js";
-import { SENTENCES_CHAPTER_01 } from "../data/sentences/chapter-01.js";
+import { GENERATED_CHAPTERS } from "../data/generated/chapters.generated.js";
+import { GENERATED_SENTENCES } from "../data/generated/sentences.generated.js";
 import { GRAMMAR_TAGS } from "../data/grammar-tags.js";
 import { escapeHTML } from "../utils/sanitize.js";
 
 function getSentencesByChapter(chapterId) {
-  if (chapterId === "CH01") return SENTENCES_CHAPTER_01;
-  return [];
+  return GENERATED_SENTENCES.filter(sentence => sentence.chapterId === chapterId);
 }
 
 function getTagLabel(tagId) {
@@ -13,7 +12,7 @@ function getTagLabel(tagId) {
 }
 
 export function renderChapterView(chapterId) {
-  const chapter = CHAPTERS.find(item => item.id === chapterId);
+  const chapter = GENERATED_CHAPTERS.find(item => item.id === chapterId);
   const sentences = getSentencesByChapter(chapterId);
 
   if (!chapter) {
@@ -27,13 +26,23 @@ export function renderChapterView(chapterId) {
 
   const sentenceItems = sentences.map(sentence => `
     <button class="sentence-item" data-action="go-sentence" data-sentence-id="${sentence.id}">
-      <span class="badge">문장 ${sentence.id}</span>
+      <span class="badge">${escapeHTML(sentence.displayId || sentence.id)}</span>
       <p class="sentence-text">${escapeHTML(sentence.text)}</p>
-      <p class="muted">${escapeHTML(sentence.translation)}</p>
+
+      ${
+        sentence.translation
+          ? `<p class="muted">${escapeHTML(sentence.translation)}</p>`
+          : `<p class="muted">해석은 아직 등록되지 않았습니다.</p>`
+      }
+
       <div class="badge-row">
-        ${sentence.tagIds.map(tagId => `
-          <span class="badge">${escapeHTML(getTagLabel(tagId))}</span>
-        `).join("")}
+        ${
+          sentence.tagIds?.length
+            ? sentence.tagIds.map(tagId => `
+                <span class="badge">${escapeHTML(getTagLabel(tagId))}</span>
+              `).join("")
+            : `<span class="badge">태그 미등록</span>`
+        }
       </div>
     </button>
   `).join("");
@@ -41,8 +50,14 @@ export function renderChapterView(chapterId) {
   return `
     <section class="card">
       <button class="secondary" data-action="go-home">← 홈</button>
-      <h2>${escapeHTML(chapter.title)}</h2>
-      <p class="muted">${escapeHTML(chapter.description)}</p>
+      <h2>${escapeHTML(chapter.number)}. ${escapeHTML(chapter.title)}</h2>
+      <p class="muted">${sentences.length}문장</p>
+
+      <div class="button-row">
+        <button data-action="go-advanced-gate" data-chapter-id="${chapter.id}">
+          심화 관문 →
+        </button>
+      </div>
     </section>
 
     <section class="sentence-list">
